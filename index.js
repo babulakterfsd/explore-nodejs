@@ -1,4 +1,5 @@
 const http = require('http');
+const url = require('url');
 
 // Create a server object
 const server = http.createServer((req, res) => {
@@ -9,6 +10,10 @@ const server = http.createServer((req, res) => {
   } else if(req.url === '/html') {
     res.writeHead(200, {'Content-Type': 'text/html'});
     res.write('<p>Home Page</p>');
+    res.end();
+  } else {
+    const parsedURL = url.parse(req.url, true);
+    console.log(parsedURL.query);
     res.end();
   }
 });
