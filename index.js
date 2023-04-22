@@ -1,5 +1,6 @@
 const http = require('http');
 const url = require('url');
+const fs = require('fs');
 
 // Create a server object
 const server = http.createServer((req, res) => {
@@ -11,10 +12,24 @@ const server = http.createServer((req, res) => {
     res.writeHead(200, {'Content-Type': 'text/html'});
     res.write('<p>Home Page</p>');
     res.end();
+  } else if(req.url === '/users') {
+    const data = fs.readFileSync('./users.json');
+    res.writeHead(200, {'Content-Type': 'application/json'});
+    res.write(data);
+    res.end()
+  } else if(req.url === '/createfile') {
+    const data = fs.writeFile('./customfile.txt', (err) => {
+      if(err) {
+        console.log(err);
+        res.end()
+      }
+      console.log('file created');
+      res.end()
+    })
   } else {
     const parsedURL = url.parse(req.url, true);
     console.log(parsedURL.query);
-    res.end();
+    res.end('empty');
   }
 });
 
