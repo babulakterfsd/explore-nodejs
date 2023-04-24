@@ -18,14 +18,15 @@ const server = http.createServer((req, res) => {
     res.write(data);
     res.end()
   } else if(req.url === '/createfile') {
-    const data = fs.writeFile('./customfile.txt', (err) => {
-      if(err) {
-        console.log(err);
-        res.end()
-      }
-      console.log('file created');
-      res.end()
-    })
+    fs.readFile('data.json', 'utf8', (err, data) => {
+      if (err) throw err;
+      const usersData = JSON.parse(data);
+      fs.writeFile('myoffice.json', JSON.stringify(usersData), (err) => {
+          if (err) throw err;
+          console.log('User data has been written to file successfully.');
+          res.end()
+      });
+  });
   } else {
     const parsedURL = url.parse(req.url, true);
     console.log(parsedURL.query);
