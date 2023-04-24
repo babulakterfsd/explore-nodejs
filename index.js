@@ -4,7 +4,32 @@ const fs = require('fs');
 
 // Create a server object
 const server = http.createServer((req, res) => {
-  if(req.url === '/json') {
+  if(req.url === '/') {
+    res.write('<h1>Welcome to full stack development</h1>')
+    res.end()
+} else if(req.url === '/read') {
+  const text = fs.readFileSync('./pHero/first.txt', 'utf8');
+  res.write(text);
+  res.end();
+} else if(req.url === '/write') {
+  const text = fs.readFileSync('./pHero/first.txt', 'utf8');
+  fs.writeFile('./pHero/second.txt', text, (err) => {
+    if (err) throw err;
+    console.log('content of first file changed successfully');
+    res.end()
+})} else if(req.url === '/append') {
+  let text = fs.readFileSync('./pHero/first.txt', 'utf8');
+  text = text + '  No! It will be full not pull ! 😑';
+  fs.writeFile('./pHero/first.txt', text, (err) => {
+    if (err) throw err;
+    console.log('content of first file changed successfully');
+    res.end()
+})} else if(req.url === '/delete') {
+  fs.unlink('./pHero/second.txt', (err) => {
+    if (err) throw err;
+    console.log('second file deleted successfully');
+    res.end()
+})} else if(req.url === '/json') {
     res.writeHead(200, {'Content-Type': 'application/json'});
     res.write(JSON.stringify({id: 1, name: 'John Doe', salary: 3000}));
     res.end();
