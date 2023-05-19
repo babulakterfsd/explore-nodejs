@@ -13,7 +13,7 @@ readStream.on('open', () => {
 
 setTimeout(() => {
     readStream.pause()
-    console.log('stream is paused');
+    console.log('stream is paused')
 }, 15);
 
 setTimeout(() => {
